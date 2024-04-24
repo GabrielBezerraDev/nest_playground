@@ -11,6 +11,7 @@ export class UserService {
     return this.prismaService.user.create({
       data: {
         name: createUserDto.name,
+        email: createUserDto.email,
         password: createUserDto.password,
         role: {
           create: [
@@ -36,8 +37,15 @@ export class UserService {
   findFirst() {
     return this.prismaService.user.findFirst({
       include: {
-        role: true,
+        role: {
+          where: {
+            role:"ADMIN"
+          }
+        },
       },
+      where: {
+        password:"doritos123"
+      }
     });
   }
 
